@@ -16,7 +16,22 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  return project ? { title: project.name, description: project.summary } : {};
+  if (!project) return {};
+  const image = project.cover ?? project.shots[0];
+  const url = `/work/${project.slug}/`;
+  return {
+    title: project.name,
+    description: project.summary,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      title: `${project.name}: ${project.tagline}`,
+      description: project.summary,
+      url,
+      images: [image ? { url: image.src, alt: image.alt } : { url: "/og.jpg", width: 1200, height: 630 }],
+    },
+    twitter: { card: "summary_large_image", images: [image ? image.src : "/og.jpg"] },
+  };
 }
 
 export default async function CaseStudy({ params }: Props) {

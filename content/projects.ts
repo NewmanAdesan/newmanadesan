@@ -282,6 +282,8 @@ export const engineering = [
 
 export const profile = {
   name: "Newman Adesan",
+  // Change this to the real address once the site is deployed; share links and the sitemap use it.
+  siteUrl: "https://newman-adesan.vercel.app",
   title: "Frontend developer",
   secondTitle: "Software solutions analyst",
   intro:

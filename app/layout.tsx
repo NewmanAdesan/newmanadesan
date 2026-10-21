@@ -4,15 +4,45 @@ import { Footer } from "@/components/Footer";
 import { profile } from "@/content/projects";
 import "./globals.css";
 
+const siteTitle = `${profile.name} · ${profile.title} and ${profile.secondTitle.toLowerCase()}`;
+const siteDescription =
+  "I build software that solves the business problem, then check that it did. Case studies: a delivery marketplace through five versions, real-time ambulance dispatch, and school management across more than ten schools.";
+
 export const metadata: Metadata = {
-  title: { default: `${profile.name} · ${profile.title}`, template: `%s · ${profile.name}` },
-  description: profile.intro,
+  metadataBase: new URL(profile.siteUrl),
+  title: { default: siteTitle, template: `%s · ${profile.name}` },
+  description: siteDescription,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: profile.name,
+    title: siteTitle,
+    description: siteDescription,
+    url: "/",
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${profile.name}, ${profile.title}` }],
+  },
+  twitter: { card: "summary_large_image", title: siteTitle, description: siteDescription, images: ["/og.jpg"] },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.title,
+  url: profile.siteUrl,
+  email: `mailto:${profile.email}`,
+  sameAs: [profile.github, profile.linkedin],
+  alumniOf: "Federal University of Technology, Akure",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-card focus:px-3 focus:py-2"
