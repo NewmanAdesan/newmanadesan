@@ -44,7 +44,7 @@ export const projects: Project[] = [
       "Consumer, vendor, rider and admin interfaces in one React app.",
       "The full order workflow, from payment through processing to delivered, for every kind of order the platform sells.",
       "Credit and rewards end to end: gift cards, referrals, feedback rewards, cashback and special packages, from the customer's wallet to the admin tools that manage and track them.",
-      "Cursor pagination on the admin tables, using the pattern I first designed on the ambulance platform.",
+      "Cursor pagination on the credit management tables, using the pattern I first designed on the ambulance platform.",
     ],
     timeline: [
       { label: "v1", text: "Food ordering and delivery, with consumer, vendor, rider and admin interfaces." },
@@ -60,7 +60,7 @@ export const projects: Project[] = [
       },
       {
         heading: "Growing through five versions without a rewrite",
-        body: "Almost every version added a new kind of order: restaurant meals, market errands, parcel dispatch, home care appointments, gift cards, then special packages. Each one touches the cart, checkout, order history and the admin. Rewriting for each was never an option on a live platform, so the work was making every layer accept a new order type without breaking the old ones.\n\nThe customer's order history card works out which kind of order it is showing and renders the right details, prices and actions. The admin's order view does the same, and product management handles restaurant, market, service and special-package products, each with its own create and edit rules.\n\nBy v5 checkout had grown into one 1,672-line component, plus a separate guest cart and two toast libraries. I rebuilt it as a three-screen wizard (cart, checkout, then transaction PIN) driven by a single order context that owns the cart query, the delivery and payment choices and every mutation. If the customer has no PIN yet, creating one is its own small state machine: create, confirm, verify by OTP, then enter. Paying with a gift card or with earned credit then went in as one component each.",
+        body: "Almost every version added a new kind of order: restaurant meals, market errands, parcel dispatch, home care appointments, gift cards, then special packages. Each one touches the cart, checkout, order history and the admin. Rewriting for each was never an option on a live platform, so the work was making every layer accept a new order type without breaking the old ones.\n\nThe customer's order history card works out which kind of order it is showing and renders the right details, prices and actions. The admin's order view does the same, and product management handles restaurant, market, service and special-package products, each with its own create and edit rules.\n\nBy v5 checkout had grown into one 1,672-line component, plus a separate guest cart and two toast libraries. I rebuilt it as a three-screen wizard (cart, checkout, then transaction PIN) driven by a single order context that owns the cart query, the delivery and payment choices and every mutation. If the customer has no PIN yet, creating one is its own small state machine: create, confirm, verify by OTP, then enter. Redeeming a gift card and applying earned credit then went in as one component each.",
       },
       {
         heading: "Admin roles, permissions and an audit trail",
@@ -190,7 +190,7 @@ export const projects: Project[] = [
       "Real-time requests, offers, booking status updates and booking chat over Socket.IO.",
       "Emergency and event booking. When several providers offer ambulances, the consumer confirms or reserves as many as they asked for.",
       "Admin tools for accounts, bookings, ambulances, staff, facilities, pricing, transactions, and admin roles and permissions.",
-      "Cursor-aware pagination for every admin list, a pattern I later brought to Swyftng.",
+      "Cursor-aware pagination for the admin lists, a pattern I later brought to Swyftng.",
     ],
     story: [
       {
@@ -199,7 +199,7 @@ export const projects: Project[] = [
       },
       {
         heading: "Cursor pagination that never looks frozen",
-        body: "The admin lists page through the server with cursors. A cursor marks a position in one particular result set, so the moment a filter or the page size changes, the old cursor means nothing. The common bug is changing a filter and forgetting to reset it.\n\nI made that bug impossible to write. All of a list's filters, page size and cursor live in one object, changed only through one function that every call site must tell whether to reset the cursor. Filter and page-size changes reset it; next and previous move it. The whole object is the query key, so every field that affects the response triggers a refetch, and going back a page comes straight from cache. The first list I moved to this pattern had a search box that did nothing, because search was missing from its query key. That class of bug can't happen any more.\n\nWhile a page loads, the buttons disable, so a double click can't skip a page, and the page number turns into a spinner, so the table never looks stuck. If the first load fails, the table shows an error with a retry. If a later page fails, the rows already on screen stay and a small banner offers a retry, which re-runs exactly the request that failed because its cursor is already in state.",
+        body: "The admin lists page through the server with cursors. A cursor marks a position in one particular result set, so the moment a filter or the page size changes, the old cursor means nothing. The common bug is changing a filter and forgetting to reset it.\n\nI made that bug impossible to write. All of a list's filters, page size and cursor live in one object, changed only through one function that every call site must tell whether to reset the cursor. Filter and page-size changes reset it; next and previous move it. The whole object is the query key, so every field that affects the response triggers a refetch, and going back a page comes straight from cache. The first list I moved to this pattern had a search box that did nothing, because search was missing from its query key. That class of bug can't happen in a list built this way.\n\nWhile a page loads, the buttons disable, so a double click can't skip a page, and the page number turns into a spinner, so the table never looks stuck. If the first load fails, the table shows an error with a retry. If a later page fails, the rows already on screen stay and a small banner offers a retry, which re-runs exactly the request that failed because its cursor is already in state.",
       },
     ],
     shots: [],
