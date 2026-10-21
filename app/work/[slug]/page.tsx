@@ -26,7 +26,9 @@ export default async function CaseStudy({ params }: Props) {
 
   const project = projects[index];
   const next = projects[(index + 1) % projects.length];
-  const [leadVideo, ...moreVideos] = project.videos ?? [];
+  const videos = project.videos ?? [];
+  const leadVideo = project.videosLast ? undefined : videos[0];
+  const moreVideos = project.videosLast ? videos : videos.slice(1);
   const leadShots = project.shots.slice(0, 2);
   const restShots = project.shots.slice(2);
   const h2 = "mt-6 font-serif text-2xl tracking-tight first:mt-0 md:mt-0";
@@ -71,6 +73,8 @@ export default async function CaseStudy({ params }: Props) {
         </div>
       )}
 
+      {project.videosLast && leadShots.length > 0 && <Gallery shots={leadShots} label="Highlights" className="mt-10" />}
+
       <div className="mt-10 grid gap-x-10 gap-y-4 md:grid-cols-[1fr_2fr] md:gap-y-10">
         <h2 className={h2}>The problem</h2>
         <p className="leading-relaxed">{project.context}</p>
@@ -83,7 +87,7 @@ export default async function CaseStudy({ params }: Props) {
         </ul>
       </div>
 
-      {leadShots.length > 0 && <Gallery shots={leadShots} label="Highlights" className="mt-12" />}
+      {!project.videosLast && leadShots.length > 0 && <Gallery shots={leadShots} label="Highlights" className="mt-12" />}
 
       {(project.timeline || project.story) && (
         <div className="mt-12 grid gap-x-10 gap-y-4 md:grid-cols-[1fr_2fr] md:gap-y-10">
@@ -109,6 +113,8 @@ export default async function CaseStudy({ params }: Props) {
         </div>
       )}
 
+      {restShots.length > 0 && <Gallery shots={restShots} label="More screenshots" className="mt-14" />}
+
       {moreVideos.length > 0 && (
         <section aria-label="Recordings" className="mt-14 grid gap-6">
           {moreVideos.map((video) => (
@@ -116,8 +122,6 @@ export default async function CaseStudy({ params }: Props) {
           ))}
         </section>
       )}
-
-      {restShots.length > 0 && <Gallery shots={restShots} label="More screenshots" className="mt-14" />}
 
       <nav aria-label="Next project" className="mt-16 border-t border-line pt-8">
         <p className="text-sm text-muted">Next project</p>

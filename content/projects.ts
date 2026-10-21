@@ -19,6 +19,10 @@ export type Project = {
   // Version history, shown before the stories.
   timeline?: { label: string; text: string }[];
   videos?: Video[];
+  // Swyftng only: the two lead screenshots open the case study and every recording moves to the end.
+  videosLast?: boolean;
+  // Home card image when it shouldn't be the first screenshot.
+  cover?: Shot;
   // The first two appear right after "What I built"; the rest follow the stories.
   shots: Shot[];
 };
@@ -33,14 +37,13 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Vite", "React Query", "Zustand", "React Hook Form", "Zod", "Tailwind CSS"],
     link: { href: "https://swyftng.com", label: "swyftng.com" },
     summary:
-      "I have built Swyftng's web platform since the MVP in May 2024, through five major versions. Version 5 has just shipped, and v6 is in discussion.",
+      "I have built Swyftng's web platform since the MVP in May 2024, through five major versions. Version 5 has just shipped.",
     context:
       "Swyftng lets customers order from restaurants, supermarkets, local markets and home care services in one place, book a rider for any parcel, and pay with gift cards and earned credit. Vendors, riders and Swyftng's own staff run their side of each order, and the platform has grown by a new kind of order with almost every version.",
     built: [
       "Consumer, vendor, rider and admin interfaces in one React app.",
       "The full order workflow, from payment through processing to delivered, for every kind of order the platform sells.",
-      "After launch, I scoped and priced new features in a written proposal to the client, then built them: gift cards, referrals, feedback rewards, cashback and special packages.",
-      "Admin tools to manage and track each of those features.",
+      "Credit and rewards end to end: gift cards, referrals, feedback rewards, cashback and special packages, from the customer's wallet to the admin tools that manage and track them.",
       "Cursor pagination on the admin tables, using the pattern I first designed on the ambulance platform.",
     ],
     timeline: [
@@ -76,6 +79,7 @@ export const projects: Project[] = [
         body: "Admins investigating a problem jump between records: from an order to the customer who placed it, to the vendor, to one of the vendor's products, and back. I built each detail view (order, account, business, product, service) as a self-contained component that takes the breadcrumb trail it was opened from, adds its own crumb, and passes the longer trail to whatever it opens next.\n\nBecause every view works the same way, they nest in any order and work from any admin section, and clicking any crumb returns to that level. The trade-off is that the trail lives in component state rather than the URL, so a page refresh returns to the list. Moving it into the URL is the next step.",
       },
     ],
+    videosLast: true,
     videos: [
       { src: "/videos/swyftng/landing.mp4", poster: "/videos/swyftng/landing.jpg", label: "The Swyftng landing page" },
     ],
@@ -126,15 +130,15 @@ export const projects: Project[] = [
       },
     ],
     videos: [
+      { src: "/videos/demiverse/homepage.mp4", poster: "/videos/demiverse/homepage.jpg", label: "The home page: the project grid, then the room's furniture rising as you scroll" },
       { src: "/videos/demiverse/cabin-day-night.mp4", poster: "/videos/demiverse/cabin-day-night.jpg", label: "The Cabin: the hero turns from day to night as you scroll" },
       { src: "/videos/demiverse/tour-360.mp4", poster: "/videos/demiverse/tour-360.jpg", label: "The 360° tour of The Cabin" },
-      { src: "/videos/demiverse/home-scroll.mp4", poster: "/videos/demiverse/home-scroll.jpg", label: "Scrolling the home page's project grid" },
     ],
+    cover: { src: "/images/demiverse/cover.jpg", alt: "Demiverse home page" },
     shots: [
-      { src: "/images/demiverse/tour-living.jpg", alt: "Inside the 360° tour: the living area at night" },
-      { src: "/images/demiverse/home.jpg", alt: "Demiverse home page" },
-      { src: "/images/demiverse/cabin-views.jpg", alt: "The Cabin's gallery of views" },
-      { src: "/images/demiverse/tour-kitchen.jpg", alt: "Inside the 360° tour: the kitchen and dining area" },
+      { src: "/images/demiverse/interiors-1.jpg", alt: "The Cabin: walkthrough grid of interior views" },
+      { src: "/images/demiverse/interiors-2.jpg", alt: "The Cabin: more views of the living area" },
+      { src: "/images/demiverse/exteriors.jpg", alt: "An exterior project: street and aerial views" },
     ],
   },
   {
@@ -162,6 +166,7 @@ export const projects: Project[] = [
     ],
     shots: [
       { src: "/images/shkula/homepage.png", alt: "Shkula homepage hero with the mobile app preview" },
+      { src: "/images/shkula/multi-admin-dashboard.png", alt: "The super-admin dashboard across schools" },
       { src: "/images/shkula/about-page.png", alt: "Shkula about page" },
       { src: "/images/shkula/pricing_system.png", alt: "Shkula pricing page" },
       { src: "/images/shkula/documentation_system.png", alt: "Shkula documentation pages" },
@@ -278,9 +283,9 @@ export const engineering = [
 export const profile = {
   name: "Newman Adesan",
   title: "Frontend developer",
-  location: "Lagos, Nigeria",
+  secondTitle: "Software solutions analyst",
   intro:
-    "I build React and Next.js products that businesses run on: a delivery marketplace through five versions, real-time ambulance dispatch, and school management across more than ten schools.",
+    "Code is only part of the job. I start from the business process the software has to fit, plan and build the frontend around it, test it, then track whether it actually solved the problem and adjust from there. Recent work: a delivery marketplace through five versions, real-time ambulance dispatch, and school management across more than ten schools.",
   email: "newmanadesan@gmail.com",
   github: "https://github.com/NewmanAdesan",
   linkedin: "https://www.linkedin.com/in/newman-adesan-74ba22210",

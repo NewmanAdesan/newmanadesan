@@ -5,7 +5,7 @@ import { HoverVideo } from "./HoverVideo";
 import { StackList } from "./StackList";
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const cover = project.shots[0];
+  const cover = project.cover ?? project.shots[0];
   const video = project.videos?.[0];
 
   return (

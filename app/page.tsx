@@ -8,10 +8,10 @@ export default function Home() {
       <section className="grid items-center gap-10 py-16 sm:py-24 md:grid-cols-[1.4fr_1fr]">
         <div className="flex flex-col gap-6">
           <p className="text-sm uppercase tracking-[0.18em] text-accent">
-            {profile.title} · {profile.location}
+            {profile.title} · {profile.secondTitle}
           </p>
           <h1 className="font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
-            I turn the way a business works into web software people use every day.
+            I build software that solves the business problem, then check that it did.
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-muted">{profile.intro}</p>
           <div className="flex flex-wrap gap-3 text-sm">
