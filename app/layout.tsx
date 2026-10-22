@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import { Bricolage_Grotesque } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { profile } from "@/content/projects";
 import "./globals.css";
+
+// Headings and the name only. One weight keeps the file small; body text stays on the system font.
+const display = Bricolage_Grotesque({ weight: "600", subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
 
 const siteTitle = `${profile.name} · ${profile.title} and ${profile.secondTitle.toLowerCase()}`;
 const siteDescription =
@@ -37,7 +41,7 @@ const personJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" className={display.variable}>
       <body className="font-sans">
         <script
           type="application/ld+json"

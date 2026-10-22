@@ -12,7 +12,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 whitespace-nowrap font-serif text-base tracking-tight sm:gap-2.5 sm:text-lg">
+        <Link href="/" className="flex items-center gap-2 whitespace-nowrap font-display text-base tracking-tight sm:gap-2.5 sm:text-lg">
           <Image
             src="/newman.jpg"
             alt=""

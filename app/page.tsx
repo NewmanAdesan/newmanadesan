@@ -10,7 +10,7 @@ export default function Home() {
           <p className="text-sm uppercase tracking-[0.18em] text-accent">
             {profile.title} · {profile.secondTitle}
           </p>
-          <h1 className="font-serif text-4xl leading-tight tracking-tight sm:text-5xl">
+          <h1 className="font-display text-4xl leading-tight tracking-tight sm:text-5xl">
             I build software that solves the business problem, then check that it did.
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-muted">{profile.intro}</p>
@@ -37,7 +37,7 @@ export default function Home() {
       </section>
 
       <section id="work" className="scroll-mt-20 py-8">
-        <h2 className="mb-2 font-serif text-2xl tracking-tight">Selected work</h2>
+        <h2 className="mb-2 font-display text-2xl tracking-tight">Selected work</h2>
         <p className="mb-6 text-muted">Products I have built for clients, most of them live.</p>
         {projects.map((project, i) => (
           <ProjectCard key={project.slug} project={project} index={i} />
@@ -46,7 +46,7 @@ export default function Home() {
 
       <section id="about" className="scroll-mt-20 grid gap-12 border-t border-line py-16 md:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <h2 className="font-serif text-2xl tracking-tight">About</h2>
+          <h2 className="font-display text-2xl tracking-tight">About</h2>
           <p className="leading-relaxed">
             I have been building web products for clients since 2023, usually as the
             person responsible for the whole frontend. I work closely with founders and backend developers,
@@ -84,7 +84,7 @@ export default function Home() {
       </section>
 
       <section id="contact" className="scroll-mt-20 border-t border-line py-16">
-        <h2 className="font-serif text-3xl tracking-tight sm:text-4xl">Let&apos;s talk.</h2>
+        <h2 className="font-display text-3xl tracking-tight sm:text-4xl">Let&apos;s talk.</h2>
         <p className="mt-3 max-w-xl text-muted">
           I&apos;m open to frontend roles and to building products with businesses that need them.
         </p>

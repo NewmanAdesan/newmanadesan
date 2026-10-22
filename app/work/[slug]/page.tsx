@@ -47,7 +47,7 @@ export default async function CaseStudy({ params }: Props) {
   const moreVideos = project.videosLast ? videos : videos.slice(1);
   const leadShots = project.shots.slice(0, 2);
   const restShots = project.shots.slice(2);
-  const h2 = "mt-6 font-serif text-2xl tracking-tight first:mt-0 md:mt-0";
+  const h2 = "mt-6 font-display text-2xl tracking-tight first:mt-0 md:mt-0";
 
   return (
     <article className="py-12 sm:py-16">
@@ -57,7 +57,7 @@ export default async function CaseStudy({ params }: Props) {
 
       <header className="mt-8 flex flex-col gap-4 border-b border-line pb-10">
         <p className="text-sm uppercase tracking-[0.18em] text-accent">{project.tagline}</p>
-        <h1 className="font-serif text-4xl tracking-tight sm:text-5xl">{project.name}</h1>
+        <h1 className="font-display text-4xl tracking-tight sm:text-5xl">{project.name}</h1>
         <p className="max-w-2xl text-lg leading-relaxed text-muted">{project.summary}</p>
 
         <dl className="mt-4 grid gap-6 text-sm sm:grid-cols-3">
@@ -113,7 +113,7 @@ export default async function CaseStudy({ params }: Props) {
               <ol className="flex flex-col divide-y divide-line border-y border-line">
                 {project.timeline.map((step) => (
                   <li key={step.label} className="grid grid-cols-[3rem_1fr] gap-3 py-3 leading-relaxed">
-                    <span className="font-serif text-lg text-accent">{step.label}</span>
+                    <span className="font-display text-lg text-accent">{step.label}</span>
                     <span>{step.text}</span>
                   </li>
                 ))}
@@ -146,7 +146,7 @@ export default async function CaseStudy({ params }: Props) {
 
       <nav aria-label="Next project" className="mt-16 border-t border-line pt-8">
         <p className="text-sm text-muted">Next project</p>
-        <Link href={`/work/${next.slug}`} className="font-serif text-2xl tracking-tight hover:text-accent">
+        <Link href={`/work/${next.slug}`} className="font-display text-2xl tracking-tight hover:text-accent">
           {next.name} →
         </Link>
       </nav>

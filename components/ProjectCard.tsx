@@ -15,7 +15,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         <p className="text-sm text-muted">
           {String(index + 1).padStart(2, "0")} · {project.period}
         </p>
-        <h3 className="font-serif text-3xl tracking-tight">
+        <h3 className="font-display text-3xl tracking-tight">
           <Link href={`/work/${project.slug}`} className="hover:text-accent">
             {project.name}
           </Link>
@@ -50,7 +50,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
           />
         ) : (
           <div className="flex aspect-[4/3] items-center justify-center p-8">
-            <span className="font-serif text-4xl tracking-tight text-muted">{project.name}</span>
+            <span className="font-display text-4xl tracking-tight text-muted">{project.name}</span>
           </div>
         )}
         {cover && video && <HoverVideo video={video} />}
