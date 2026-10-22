@@ -3,6 +3,9 @@ export type Shot = { src: string; alt: string };
 // A short muted screen recording. The first one leads the case study and plays on hover on the home card.
 export type Video = { src: string; poster: string; label: string };
 
+// An interactive demo shown right after the story it illustrates.
+export type DemoId = "gift-card" | "cursor-pagination" | "dispatch-feed";
+
 export type Project = {
   slug: string;
   name: string;
@@ -15,7 +18,7 @@ export type Project = {
   context: string;
   built: string[];
   // Your own account of a hard problem and how you solved it. Leave empty until written.
-  story?: { heading: string; body: string }[];
+  story?: { heading: string; body: string; demo?: DemoId }[];
   // Version history, shown before the stories.
   timeline?: { label: string; text: string }[];
   videos?: Video[];
@@ -69,6 +72,7 @@ export const projects: Project[] = [
       {
         heading: "A colour system admins can't break",
         body: "Admins design gift cards and special-package cards themselves, so colour had to be safe in their hands. A gift card's design is four colours. I curated 30 named combinations that work together, and the backend stores only the four hex values. The names live only in the frontend, so they can be renamed without touching the API. When an admin picks a theme, each option shows whether it is already in use and on how many cards. When an admin edits a card, the right theme is pre-selected by matching the stored colours back to a name.\n\nA special package needs only one colour. The card's grid lines are derived from it, same hue and slightly darker, so no choice can clash. The card works in HSL internally and converts to hex only at the API boundary, and it still reads an older colour format the backend once stored, so old packages keep rendering.",
+        demo: "gift-card",
       },
       {
         heading: "When the data disagrees",
@@ -196,12 +200,15 @@ export const projects: Project[] = [
       {
         heading: "Real-time dispatch over Socket.IO",
         body: "A request has to reach providers the moment it is made, and their offers have to reach the consumer just as fast. When a signed-in consumer or provider opens the app, their interface opens one Socket.IO connection, authenticated with their token, and closes it when they leave. The connection lives in a small Zustand store, so any component can read the latest event or send one without passing the socket around.\n\nListeners and actions are gated by role: only a consumer can ask for available ambulances, only a provider can offer one, and only consumers listen for booking status changes. Actions wait for the server's acknowledgement before the screen changes, so a provider's offer shows as sent only once the server has it. Consumer and provider can message each other about a booking in a chat sheet that follows them across the app.\n\nAdmins get a live feed of booking status changes on their dashboard, with its own connection, the latest seven updates, a Live, Offline or Error indicator and a retry button, so a dropped connection is visible instead of silently stale. Before the backend's events were ready, the client was tested against a small mock Socket.IO server that answers a request and has a provider accept it five seconds later.",
+        demo: "dispatch-feed",
       },
       {
         heading: "Cursor pagination that never looks frozen",
-        body: "The admin lists page through the server with cursors. A cursor marks a position in one particular result set, so the moment a filter or the page size changes, the old cursor means nothing. The common bug is changing a filter and forgetting to reset it.\n\nI made that bug impossible to write. All of a list's filters, page size and cursor live in one object, changed only through one function that every call site must tell whether to reset the cursor. Filter and page-size changes reset it; next and previous move it. The whole object is the query key, so every field that affects the response triggers a refetch, and going back a page comes straight from cache. The first list I moved to this pattern had a search box that did nothing, because search was missing from its query key. That class of bug can't happen in a list built this way.\n\nWhile a page loads, the buttons disable, so a double click can't skip a page, and the page number turns into a spinner, so the table never looks stuck. If the first load fails, the table shows an error with a retry. If a later page fails, the rows already on screen stay and a small banner offers a retry, which re-runs exactly the request that failed because its cursor is already in state.",
+        body: "The admin lists page through the server with cursors. A cursor marks a position in one particular result set, so the moment a filter or the page size changes, the old cursor means nothing. The common bug is changing a filter and forgetting to reset it.\n\nI made that bug impossible to write. All of a list's filters, page size and cursor live in one object, changed only through one function that every call site must tell whether to reset the cursor. Filter and page-size changes reset it; next and previous move it. The whole object is the query key, so every field that affects the response triggers a refetch, and a page that was already fetched with the same key comes straight from cache. The first list I moved to this pattern had a search box that did nothing, because search was missing from its query key. That class of bug can't happen in a list built this way.\n\nWhile a page loads, the buttons disable, so a double click can't skip a page, and the page number turns into a spinner, so the table never looks stuck. If the first load fails, the table shows an error with a retry. If a later page fails, the rows already on screen stay and a small banner offers a retry, which re-runs exactly the request that failed because its cursor is already in state.",
+        demo: "cursor-pagination",
       },
     ],
+    cover: { src: "/images/ambulance/cover.jpg", alt: "The live booking feed demo from this case study" },
     shots: [],
   },
   {

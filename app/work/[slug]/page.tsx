@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Demo } from "@/components/demos/Demo";
 import { InViewVideo } from "@/components/InViewVideo";
 import { StackList } from "@/components/StackList";
 import type { Shot } from "@/content/projects";
@@ -123,6 +124,11 @@ export default async function CaseStudy({ params }: Props) {
             <div key={part.heading} className="contents">
               <h2 className={h2}>{part.heading}</h2>
               <p className="whitespace-pre-line leading-relaxed">{part.body}</p>
+              {part.demo && (
+                <div className="mt-2 md:col-span-2 md:mt-0">
+                  <Demo id={part.demo} />
+                </div>
+              )}
             </div>
           ))}
         </div>
