@@ -29,8 +29,8 @@ export default function Home() {
         <Image
           src="/newman.jpg"
           alt={`Portrait of ${profile.name}`}
-          width={496}
-          height={640}
+          width={450}
+          height={450}
           priority
           className="mx-auto w-56 rounded-2xl border border-line object-cover sm:w-72"
         />
