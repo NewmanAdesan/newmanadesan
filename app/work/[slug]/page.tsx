@@ -111,7 +111,7 @@ export default async function CaseStudy({ params }: Props) {
         {!project.videosLast && leadShots.length > 0 && <Gallery shots={leadShots} label="Highlights" className="mt-12" />}
 
         {(project.timeline || project.story) && (
-          <div className="mt-12 grid gap-x-10 gap-y-4 md:grid-cols-[1fr_2fr] md:gap-y-10">
+          <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-[1fr_2fr] md:gap-y-10">
             {project.timeline && (
               <>
                 <h2 className={h2}>Five versions, one codebase</h2>

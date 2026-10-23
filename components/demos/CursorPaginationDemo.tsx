@@ -105,9 +105,9 @@ export function CursorPaginationDemo() {
             <table className={`w-full text-left text-sm transition-opacity ${query.isFetching ? "opacity-60" : ""}`}>
               <thead className="bg-paper text-muted">
                 <tr>
-                  <th className="px-3 py-2 font-medium">Booking</th>
-                  <th className="px-3 py-2 font-medium">Type</th>
-                  <th className="px-3 py-2 font-medium">Status</th>
+                  <th className="px-2 py-2 font-medium sm:px-3">Booking</th>
+                  <th className="px-2 py-2 font-medium sm:px-3">Type</th>
+                  <th className="px-2 py-2 font-medium sm:px-3">Status</th>
                   <th className="hidden px-3 py-2 text-right font-medium sm:table-cell">Amount</th>
                 </tr>
               </thead>
@@ -118,9 +118,9 @@ export function CursorPaginationDemo() {
                     style={{ animationDelay: `${i * 35}ms` }}
                     className="motion-safe:animate-[row-in_320ms_var(--ease-out)_both]"
                   >
-                    <td className="px-3 py-2 font-mono text-xs">{b.id}</td>
-                    <td className="px-3 py-2">{b.type === "EMERGENCY" ? "Emergency" : "Event"}</td>
-                    <td className="px-3 py-2">{b.status}</td>
+                    <td className="px-2 py-2 font-mono text-xs sm:px-3">{b.id}</td>
+                    <td className="px-2 py-2 sm:px-3">{b.type === "EMERGENCY" ? "Emergency" : "Event"}</td>
+                    <td className="px-2 py-2 sm:px-3">{b.status}</td>
                     <td className="hidden px-3 py-2 text-right tabular-nums sm:table-cell">
                       ₦{b.amount.toLocaleString()}
                     </td>

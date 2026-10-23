@@ -6,7 +6,7 @@ export function DemoFrame({ title, note, children }: { title: string; note: stri
     <figure className="overflow-clip rounded-lg border border-line bg-card">
       <div className="flex items-center gap-2 border-b border-line px-4 py-3 text-sm">
         <span className="live-dot size-2 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-        <span className="font-medium">Try it</span>
+        <span className="shrink-0 font-medium">Try it</span>
         <span className="text-muted">· {title}</span>
       </div>
       <div className="p-4 sm:p-6">{children}</div>
