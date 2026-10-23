@@ -49,3 +49,230 @@ body {
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* ---------- Motion ----------
+   All CSS. Scroll effects use scroll-driven animations and page changes use View Transitions;
+   browsers without them (Safari 15 on the iPhone 7, for one) get the static site, nothing breaks.
+   Anything that moves is switched off for visitors who ask for reduced motion. */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 36px;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 25;
+  }
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes header-shade {
+  to {
+    box-shadow: 0 12px 32px -22px rgb(0 0 0 / 0.45);
+  }
+}
+
+/* 25 is the check's path length, written out because old Safari ignores pathLength. */
+.draw-check path {
+  stroke-dasharray: 25;
+}
+
+.read-progress {
+  display: none;
+}
+
+/* Tied to scroll position rather than time, so these stay on with reduced motion. */
+@supports (animation-timeline: scroll()) {
+  .header-shade {
+    animation: header-shade linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 160px;
+  }
+
+  .read-progress {
+    display: block;
+    transform-origin: 0 50%;
+    animation: grow-x linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 800ms var(--ease-out) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  .draw-check path {
+    animation: draw 700ms var(--ease-out) 750ms both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      /* A fixed distance, so a tall video is fully visible after the same 180px of scroll as a short paragraph. */
+      animation-range: entry 0% entry 180px;
+    }
+
+    /* The version list's spine fills in as you read down it. */
+    .spine::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 2px;
+      background: var(--color-accent);
+      transform-origin: 50% 0;
+      animation: grow-y linear both;
+      animation-timeline: view();
+      animation-range: cover 15% cover 65%;
+    }
+  }
+}
+
+/* Demos: a "Try it" dot that pings like a live indicator, rows that settle in when a page loads,
+   and a gift card that blends to its new colours instead of snapping. */
+@keyframes row-in {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .live-dot {
+    animation: ping 2.4s var(--ease-out) infinite;
+  }
+
+  .gift-card-visual stop,
+  .gift-card-visual path,
+  .gift-card-visual text {
+    transition:
+      stop-color 450ms var(--ease-out),
+      fill 450ms var(--ease-out);
+  }
+}
+
+@media print {
+  .reveal,
+  .rise {
+    animation: none !important;
+  }
+}
+
+/* Page transitions. The header stays put so the eye has a fixed point while content moves. */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: 500ms;
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+
+::view-transition-old(.nav-forward) {
+  --slide-offset: -48px;
+  animation:
+    160ms ease-in both fade reverse,
+    420ms var(--ease-out) both slide reverse;
+}
+
+::view-transition-new(.nav-forward) {
+  --slide-offset: 48px;
+  animation:
+    240ms ease-out 120ms both fade,
+    420ms var(--ease-out) both slide;
+}
+
+::view-transition-old(.nav-back) {
+  --slide-offset: 48px;
+  animation:
+    160ms ease-in both fade reverse,
+    420ms var(--ease-out) both slide reverse;
+}
+
+::view-transition-new(.nav-back) {
+  --slide-offset: -48px;
+  animation:
+    240ms ease-out 120ms both fade,
+    420ms var(--ease-out) both slide;
+}
+
+@keyframes via-blur {
+  30% {
+    filter: blur(2px);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide {
+  from {
+    translate: var(--slide-offset) 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

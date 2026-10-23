@@ -27,7 +27,7 @@ export function GiftCardVisual({ value, tier, theme, className }: Props) {
   return (
     <svg
       viewBox="0 0 319 112"
-      className={className}
+      className={`gift-card-visual ${className ?? ""}`}
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label={`${tier} gift card worth ${value.toLocaleString()} naira`}

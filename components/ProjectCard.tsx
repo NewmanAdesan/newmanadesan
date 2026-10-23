@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/content/projects";
 import { HoverVideo } from "./HoverVideo";
+import { TitleTransition } from "./Motion";
 import { StackList } from "./StackList";
 
 export function ProjectCard({ project, index }: { project: Project; index: number }) {
@@ -10,15 +11,21 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
   const hasDemo = project.story?.some((part) => part.demo);
 
   return (
-    <article className="group grid gap-6 border-t border-line py-10 md:grid-cols-[1fr_1.1fr] md:gap-10">
+    <article className="reveal group grid gap-6 border-t border-line py-10 md:grid-cols-[1fr_1.1fr] md:gap-10">
       <div className="flex flex-col gap-4">
         <p className="text-sm text-muted">
           {String(index + 1).padStart(2, "0")} · {project.period}
         </p>
         <h3 className="font-display text-3xl tracking-tight">
-          <Link href={`/work/${project.slug}`} className="hover:text-accent">
-            {project.name}
-          </Link>
+          <TitleTransition slug={project.slug}>
+            <Link
+              href={`/work/${project.slug}`}
+              transitionTypes={["nav-forward"]}
+              className="inline-block transition-colors hover:text-accent"
+            >
+              {project.name}
+            </Link>
+          </TitleTransition>
         </h3>
         <p className="text-muted">{project.tagline}</p>
         <p className="leading-relaxed">{project.summary}</p>
@@ -26,9 +33,13 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
           <Link
             href={`/work/${project.slug}`}
+            transitionTypes={["nav-forward"]}
             className="font-medium text-accent underline-offset-4 hover:underline"
           >
-            Read the case study →
+            Read the case study{" "}
+            <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
           </Link>
           {hasDemo && <span className="text-muted">Includes a live demo</span>}
         </p>
@@ -36,9 +47,10 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
 
       <Link
         href={`/work/${project.slug}`}
+        transitionTypes={["nav-forward"]}
         aria-hidden="true"
         tabIndex={-1}
-        className="relative block overflow-hidden rounded-lg border border-line bg-card"
+        className="relative block overflow-hidden rounded-lg border border-line bg-card transition duration-500 ease-[var(--ease-out)] group-hover:-translate-y-1 group-hover:shadow-[0_24px_48px_-28px_rgb(0_0_0/0.4)]"
       >
         {cover ? (
           <Image

@@ -112,8 +112,12 @@ export function CursorPaginationDemo() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-line">
-                {page?.data.map((b) => (
-                  <tr key={b.id}>
+                {page?.data.map((b, i) => (
+                  <tr
+                    key={b.id}
+                    style={{ animationDelay: `${i * 35}ms` }}
+                    className="motion-safe:animate-[row-in_320ms_var(--ease-out)_both]"
+                  >
                     <td className="px-3 py-2 font-mono text-xs">{b.id}</td>
                     <td className="px-3 py-2">{b.type === "EMERGENCY" ? "Emergency" : "Event"}</td>
                     <td className="px-3 py-2">{b.status}</td>
