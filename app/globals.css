@@ -1,24 +1,33 @@
 @import "tailwindcss";
 
+/*
+  Palette: a cool, slightly green paper rather than the usual warm cream, ink that leans
+  green-black, and one ledger green for anything that is a link or a check.
+*/
 @theme {
-  --color-paper: #f7f5f0;
-  --color-ink: #16181d;
-  --color-muted: #5b6070;
-  --color-line: #e2ded4;
-  --color-card: #ffffff;
-  --color-accent: #1f5c4a;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --color-paper: #eef0ec;
+  --color-ink: #121a17;
+  --color-muted: #56615b;
+  --color-line: #cdd3cd;
+  --color-card: #f8f9f6;
+  --color-accent: #1d5a45;
+  --font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-bodoni), "Bodoni 72", Didot, "Times New Roman", serif;
+
+  /* Motion. Strong ease-out for UI, and a spring (0.5s response, 0.15 bounce) sampled into
+     linear() so the hero can settle like a spring without shipping a JS animation library. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-spring: linear(0, 0.036, 0.121, 0.231, 0.348, 0.463, 0.568, 0.661, 0.74, 0.806, 0.858, 0.9, 0.932, 0.956, 0.974, 0.986, 0.995, 1, 1.004, 1.005, 1.006, 1.006, 1.006, 1.005, 1.005, 1.004, 1.003, 1.002, 1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-paper: #121417;
-    --color-ink: #ecebe6;
-    --color-muted: #9aa0ad;
-    --color-line: #2a2e35;
-    --color-card: #1a1d22;
-    --color-accent: #7cc4a8;
+    --color-paper: #0f1513;
+    --color-ink: #e4e9e5;
+    --color-muted: #94a19a;
+    --color-line: #26302c;
+    --color-card: #151d1a;
+    --color-accent: #8dceb2;
   }
 }
 
@@ -26,17 +35,12 @@ html {
   scroll-behavior: smooth;
 }
 
-@keyframes feed-in {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-}
-
 body {
   background: var(--color-paper);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
 }
 
 ::selection {
@@ -47,5 +51,123 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
-  border-radius: 4px;
+}
+
+/* Every button answers a press. Transform only, so it never triggers layout. */
+button {
+  transition: transform 160ms var(--ease-out);
+}
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+@keyframes feed-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/*
+  Underline that draws in from the left on hover. The line is a scaled pseudo-element,
+  so only transform changes. Touch devices get a static underline instead of a sticky hover.
+*/
+@utility link {
+  position: relative;
+  text-decoration: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.12em;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 240ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
+  @media not ((hover: hover) and (pointer: fine)) {
+    &::after {
+      transform: scaleX(1);
+      opacity: 0.35;
+    }
+  }
+}
+
+/* The same line, already drawn, for links that must read as links at rest. */
+@utility link-ruled {
+  &::after {
+    transform: scaleX(1);
+    opacity: 0.35;
+    transition:
+      transform 240ms var(--ease-out),
+      opacity 240ms var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+}
+
+/* Press feedback for the few links that act like buttons. */
+@utility press {
+  display: inline-block;
+  transition: transform 160ms var(--ease-out);
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+/*
+  The one orchestrated moment: the hero settles in on first load, line by line.
+  Opacity and transform only, staggered 70ms. Reduced motion keeps a short fade and drops movement.
+*/
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.settle {
+  animation: settle 650ms var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settle {
+    animation: fade 200ms ease both;
+  }
+  button,
+  button:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Screenshots and covers lean in slightly on hover, on mouse devices only. */
+.lean {
+  transition: transform 500ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .group:hover .lean {
+    transform: scale(1.015);
+  }
 }
