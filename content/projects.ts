@@ -15,6 +15,8 @@ export type Project = {
   stack: string[];
   link?: { href: string; label: string };
   summary: string;
+  // One concrete line for the home page: what the work achieved or what makes it hard. Facts from the case study only.
+  proof: string;
   context: string;
   built: string[];
   // Your own account of a hard problem and how you solved it. Leave empty until written.
@@ -41,6 +43,7 @@ export const projects: Project[] = [
     link: { href: "https://swyftng.com", label: "swyftng.com" },
     summary:
       "I have built Swyftng's web platform since the MVP in May 2024, through five major versions. Version 5 has just shipped.",
+    proof: "Five major versions on one live codebase since May 2024, without a rewrite.",
     context:
       "Swyftng lets customers order from restaurants, supermarkets, local markets and home care services in one place, book a rider for any parcel, and pay with gift cards and earned credit. Vendors, riders and Swyftng's own staff run their side of each order, and the platform has grown by a new kind of order with almost every version.",
     built: [
@@ -110,6 +113,7 @@ export const projects: Project[] = [
     link: { href: "https://demiverse-site.vercel.app", label: "demiverse-site.vercel.app" },
     summary:
       "A portfolio site that presents the studio's projects as stills, day and night comparisons, 360° tours and film.",
+    proof: "Planned for a 2 GB iPhone 7. Its scroll sequence dropped 0 frames under a 4× CPU slowdown.",
     context:
       "Demiverse produces architectural renders and walkthroughs. The site had to show heavy visual media well on phones without becoming slow or hard to update.",
     built: [
@@ -158,6 +162,7 @@ export const projects: Project[] = [
     },
     summary:
       "The company's public website, then the internal dashboard used to oversee more than ten schools.",
+    proof: "One dashboard for the company's team to oversee more than ten schools.",
     context:
       "Shkula is school management software used by several schools at once. The company needed a public face first, and then a way for its own team to see across every school on the platform.",
     built: [
@@ -187,6 +192,7 @@ export const projects: Project[] = [
     stack: ["Next.js", "React", "TypeScript", "Socket.IO", "TanStack Query", "Zustand", "Tailwind CSS"],
     summary:
       "Web interfaces for a healthcare logistics platform: people request an ambulance for an emergency or an event, providers offer their ambulances, and administrators run the operation.",
+    proof: "Requests, offers and booking updates reach each side in real time over Socket.IO.",
     context:
       "The platform has three sides: consumers requesting ambulances, providers running them, and administrators overseeing both. The product hasn't launched yet and the client is under confidentiality, so there are no screenshots or name here.",
     built: [
@@ -220,6 +226,7 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Vite"],
     summary:
       "A landing page that turns a founder's story into a case for engineered bamboo as an answer to affordable housing in Nigeria.",
+    proof: "Structure and copy built from the founder's voice notes, before any design.",
     context:
       "GloBam promotes bamboo as a building material well beyond scaffolding, and runs the yearly Global Bamboo Expo, held online in 2023 and 2024, at FUTA in 2025 and at UNILAG in 2026. The founder explained the company to me in a series of voice notes.",
     built: [
@@ -243,6 +250,7 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript"],
     summary:
       "I wrote the blueprint for the agency's site, the client approved it, and then I built it.",
+    proof: "A quiz that qualifies leads and pre-fills the contact form.",
     context:
       "The agency wanted its website to bring in better-qualified leads, not just look good.",
     built: [
@@ -293,8 +301,9 @@ export const profile = {
   siteUrl: "https://newmanadesan.vercel.app",
   title: "Frontend developer",
   secondTitle: "Software solutions analyst",
+  // The hero's one-line intro. The headline carries the thesis; this says how.
   intro:
-    "Code is only part of the job. I start from the business process the software has to fit, plan and build the frontend around it, test it, then track whether it actually solved the problem and adjust from there. Recent work: a delivery marketplace through five versions, real-time ambulance dispatch, and school management across more than ten schools.",
+    "I plan, build and test the frontend around how a business actually runs, then track whether it solved the problem.",
   email: "newmanadesan@gmail.com",
   github: "https://github.com/NewmanAdesan",
   linkedin: "https://www.linkedin.com/in/newman-adesan-74ba22210",

@@ -44,7 +44,7 @@ export function InViewVideo({ video }: { video: Video }) {
   };
 
   return (
-    <figure className="overflow-hidden rounded-lg border border-line bg-card">
+    <figure className="overflow-hidden rounded-lg bg-card">
       <div className="relative">
         <video
           ref={ref}
@@ -63,7 +63,7 @@ export function InViewVideo({ video }: { video: Video }) {
           type="button"
           onClick={toggle}
           aria-label={paused ? `Play: ${video.label}` : `Pause: ${video.label}`}
-          className="absolute right-3 bottom-3 flex size-11 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur transition-colors hover:bg-black/80"
+          className="absolute right-3 bottom-3 flex size-11 items-center justify-center rounded-full bg-black/70 text-white"
         >
           {paused ? (
             <svg viewBox="0 0 24 24" className="size-4 fill-current" aria-hidden="true">

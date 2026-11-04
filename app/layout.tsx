@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque } from "next/font/google";
+import { Big_Shoulders } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { profile } from "@/content/projects";
 import "./globals.css";
 
 // Headings and the name only. One weight keeps the file small; body text stays on the system font.
-const display = Bricolage_Grotesque({ weight: "600", subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
+const display = Big_Shoulders({ weight: "800", subsets: ["latin"], variable: "--font-shoulders", display: "swap" });
 
 const siteTitle = `${profile.name} · ${profile.title} and ${profile.secondTitle.toLowerCase()}`;
 const siteDescription =
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Header />
-        <main id="main" className="mx-auto max-w-5xl px-4 sm:px-6">
+        <main id="main">
           {children}
         </main>
         <Footer />

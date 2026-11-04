@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { Demo } from "@/components/demos/Demo";
 import { InViewVideo } from "@/components/InViewVideo";
 import { PageTransition, TitleTransition } from "@/components/Motion";
-import { StackList } from "@/components/StackList";
 import type { Shot } from "@/content/projects";
 import { projects } from "@/content/projects";
 
@@ -42,30 +41,45 @@ export default async function CaseStudy({ params }: Props) {
   if (index === -1) notFound();
 
   const project = projects[index];
+  const cover = project.cover ?? project.shots[0];
   const next = projects[(index + 1) % projects.length];
   const videos = project.videos ?? [];
   const leadVideo = project.videosLast ? undefined : videos[0];
   const moreVideos = project.videosLast ? videos : videos.slice(1);
   const leadShots = project.shots.slice(0, 2);
   const restShots = project.shots.slice(2);
-  const h2 = "reveal mt-6 font-display text-2xl tracking-tight first:mt-0 md:mt-0";
+  const h2 = "reveal mt-6 font-display text-4xl leading-none uppercase first:mt-0 md:mt-0";
 
   return (
     <PageTransition>
-      <article className="py-12 sm:py-16">
+      <article>
         <div aria-hidden="true" className="read-progress fixed inset-x-0 top-0 z-50 h-0.5 bg-accent" />
-        <Link href="/#work" transitionTypes={["nav-back"]} className="group text-sm text-muted hover:text-ink">
-          <span className="inline-block transition-transform duration-300 group-hover:-translate-x-1">←</span> All work
-        </Link>
 
-        <header className="mt-8 flex flex-col gap-4 border-b border-line pb-10">
-          <p className="text-sm uppercase tracking-[0.18em] text-accent">{project.tagline}</p>
-          <TitleTransition slug={project.slug}>
-            <h1 className="w-fit font-display text-4xl tracking-tight sm:text-5xl">{project.name}</h1>
-          </TitleTransition>
-          <p className="max-w-2xl text-lg leading-relaxed text-muted">{project.summary}</p>
+        {/* Opening shot: the cover fills the screen behind the title, then drifts up and darkens as the story starts. */}
+        <header className="relative flex min-h-[78svh] flex-col justify-end overflow-hidden">
+          {cover && (
+            <div aria-hidden="true" className="shot-drift absolute inset-0">
+              <Image src={cover.src} alt="" fill priority sizes="100vw" className="object-cover object-top opacity-45 saturate-50" />
+            </div>
+          )}
+          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-paper from-15% via-paper/80 to-paper/30" />
+          <div className="wrap relative flex flex-col gap-5 pt-24 pb-12">
+            <Link href="/#work" transitionTypes={["nav-back"]} className="line-link self-start text-sm text-muted">
+              All work
+            </Link>
+            <p className="rise text-lg">{project.tagline}</p>
+            <TitleTransition slug={project.slug}>
+              <h1 className="w-fit font-display text-[3.75rem] leading-[0.86] uppercase sm:text-8xl lg:text-[10rem]">
+                {project.name}
+              </h1>
+            </TitleTransition>
+          </div>
+        </header>
 
-          <dl className="mt-4 grid gap-6 text-sm sm:grid-cols-3">
+        <div className="wrap">
+        <section className="grid gap-8 border-b border-line py-12 md:grid-cols-12">
+          <p className="rise text-xl leading-relaxed md:col-span-7 [--delay:120ms]">{project.summary}</p>
+          <dl className="rise grid grid-cols-2 gap-6 text-sm md:col-span-4 md:col-start-9 [--delay:200ms]">
             <div>
               <dt className="text-muted">Role</dt>
               <dd className="mt-1">{project.role}</dd>
@@ -75,18 +89,21 @@ export default async function CaseStudy({ params }: Props) {
               <dd className="mt-1">{project.period}</dd>
             </div>
             {project.link && (
-              <div>
+              <div className="col-span-2">
                 <dt className="text-muted">Live</dt>
                 <dd className="mt-1">
-                  <a href={project.link.href} className="text-accent underline-offset-4 hover:underline">
-                    {project.link.label} ↗
+                  <a href={project.link.href} className="line-link text-accent">
+                    {project.link.label}
                   </a>
                 </dd>
               </div>
             )}
+            <div className="col-span-2">
+              <dt className="text-muted">Tools</dt>
+              <dd className="mt-1 leading-relaxed">{project.stack.join(", ")}</dd>
+            </div>
           </dl>
-          <StackList items={project.stack} />
-        </header>
+        </section>
 
         {leadVideo && (
           <div className="reveal mt-10">
@@ -151,24 +168,19 @@ export default async function CaseStudy({ params }: Props) {
           </section>
         )}
 
-        <nav aria-label="Next project" className="reveal mt-16 border-t border-line pt-8">
+        <nav aria-label="Next project" className="reveal mt-24 border-t border-line pt-10">
           <p className="text-sm text-muted">Next project</p>
           <Link
             href={`/work/${next.slug}`}
             transitionTypes={["nav-forward"]}
-            className="group font-display text-2xl tracking-tight transition-colors hover:text-accent"
+            className="press mt-2 inline-block font-display text-6xl leading-[0.88] uppercase sm:text-8xl"
           >
             <TitleTransition slug={next.slug}>
               <span className="inline-block">{next.name}</span>
-            </TitleTransition>{" "}
-            <span
-              aria-hidden="true"
-              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-            >
-              →
-            </span>
+            </TitleTransition>
           </Link>
         </nav>
+        </div>
       </article>
     </PageTransition>
   );
@@ -178,7 +190,7 @@ function Gallery({ shots, label, className }: { shots: Shot[]; label: string; cl
   return (
     <section aria-label={label} className={`${className} grid gap-6 sm:grid-cols-2`}>
       {shots.map((shot) => (
-        <figure key={shot.src} className="reveal overflow-hidden rounded-lg border border-line bg-card">
+        <figure key={shot.src} className="reveal overflow-hidden rounded-[3px] bg-card">
           <Image src={shot.src} alt={shot.alt} width={1200} height={900} className="w-full" />
           <figcaption className="px-4 py-3 text-sm text-muted">{shot.alt}</figcaption>
         </figure>
