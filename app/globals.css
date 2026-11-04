@@ -1,25 +1,20 @@
 @import "tailwindcss";
 
+/* Cinematic variant: one dark "screening room" palette in every colour scheme, deep green night
+   rather than neutral black, with the brand green turned into a pale lamp colour. */
 @theme {
-  --color-paper: #f7f5f0;
-  --color-ink: #16181d;
-  --color-muted: #5b6070;
-  --color-line: #e2ded4;
-  --color-card: #ffffff;
-  --color-accent: #1f5c4a;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --color-paper: #0b1512;
+  --color-ink: #edf2ee;
+  --color-muted: #93a59c;
+  --color-line: #1f2e29;
+  --color-card: #12201b;
+  --color-accent: #9fe0c3;
+  --font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-shoulders), "Arial Narrow", Impact, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-paper: #121417;
-    --color-ink: #ecebe6;
-    --color-muted: #9aa0ad;
-    --color-line: #2a2e35;
-    --color-card: #1a1d22;
-    --color-accent: #7cc4a8;
-  }
+:root {
+  color-scheme: dark;
 }
 
 html {
@@ -34,6 +29,7 @@ html {
 }
 
 body {
+  overflow-x: clip;
   background: var(--color-paper);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
@@ -48,4 +44,402 @@ body {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* ---------- Motion ----------
+   All CSS. Scroll effects use scroll-driven animations and page changes use View Transitions;
+   browsers without them (Safari 15 on the iPhone 7, for one) get the static site, nothing breaks.
+   Anything that moves is switched off for visitors who ask for reduced motion. */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 36px;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 25;
+  }
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes header-shade {
+  to {
+    box-shadow: 0 12px 32px -22px rgb(0 0 0 / 0.45);
+  }
+}
+
+/* 25 is the check's path length, written out because old Safari ignores pathLength. */
+.draw-check path {
+  stroke-dasharray: 25;
+}
+
+.read-progress {
+  display: none;
+}
+
+/* Tied to scroll position rather than time, so these stay on with reduced motion. */
+@supports (animation-timeline: scroll()) {
+  .header-shade {
+    animation: header-shade linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 160px;
+  }
+
+  .read-progress {
+    display: block;
+    transform-origin: 0 50%;
+    animation: grow-x linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 800ms var(--ease-out) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  .draw-check path {
+    animation: draw 700ms var(--ease-out) 750ms both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      /* A fixed distance, so a tall video is fully visible after the same 180px of scroll as a short paragraph. */
+      animation-range: entry 0% entry 180px;
+    }
+
+    /* The version list's spine fills in as you read down it. */
+    .spine::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 2px;
+      background: var(--color-accent);
+      transform-origin: 50% 0;
+      animation: grow-y linear both;
+      animation-timeline: view();
+      animation-range: cover 15% cover 65%;
+    }
+  }
+}
+
+/* Demos: a "Try it" dot that pings like a live indicator, rows that settle in when a page loads,
+   and a gift card that blends to its new colours instead of snapping. */
+@keyframes row-in {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .live-dot {
+    animation: ping 2.4s var(--ease-out) infinite;
+  }
+
+  .gift-card-visual stop,
+  .gift-card-visual path,
+  .gift-card-visual text {
+    transition:
+      stop-color 450ms var(--ease-out),
+      fill 450ms var(--ease-out);
+  }
+}
+
+@media print {
+  .reveal,
+  .rise {
+    animation: none !important;
+  }
+}
+
+/* Page transitions. The header stays put so the eye has a fixed point while content moves. */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: 500ms;
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+
+::view-transition-old(.nav-forward) {
+  --slide-offset: -48px;
+  animation:
+    160ms ease-in both fade reverse,
+    420ms var(--ease-out) both slide reverse;
+}
+
+::view-transition-new(.nav-forward) {
+  --slide-offset: 48px;
+  animation:
+    240ms ease-out 120ms both fade,
+    420ms var(--ease-out) both slide;
+}
+
+::view-transition-old(.nav-back) {
+  --slide-offset: 48px;
+  animation:
+    160ms ease-in both fade reverse,
+    420ms var(--ease-out) both slide reverse;
+}
+
+::view-transition-new(.nav-back) {
+  --slide-offset: -48px;
+  animation:
+    240ms ease-out 120ms both fade,
+    420ms var(--ease-out) both slide;
+}
+
+@keyframes via-blur {
+  30% {
+    filter: blur(2px);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide {
+  from {
+    translate: var(--slide-offset) 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* ---------- Cinematic scenes ----------
+   Every moving property is transform or opacity (clip-path for the title wipe). Scenes are driven by
+   scroll position through CSS scroll-driven animations; without support, or with reduced motion,
+   each scene renders in its final state. */
+
+.wrap {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .wrap {
+    padding-inline: 2rem;
+  }
+}
+
+/* Title card: each line wipes up from behind a mask on first load. */
+@keyframes wipe {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(35%);
+  }
+  to {
+    clip-path: inset(0 0 -10% 0);
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wipe {
+    animation: wipe 900ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 100ms);
+  }
+}
+
+/* Leaving the title card: it sinks back and dims as the first scene arrives. */
+@keyframes recede {
+  to {
+    opacity: 0;
+    transform: scale(0.94) translateY(-4%);
+  }
+}
+@keyframes cue {
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* Project scenes. On wide screens each one pins for a screen and a bit: the frame opens out to fill
+   the screen, the picture settles, then the title card fades up over a shade. */
+@keyframes open-frame {
+  from {
+    transform: scale(0.58);
+  }
+}
+@keyframes settle-media {
+  from {
+    transform: scale(1.18);
+  }
+}
+@keyframes shade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+}
+
+.stage {
+  view-timeline-name: --stage;
+}
+
+@media (min-width: 768px) {
+  .stage {
+    height: 230svh;
+  }
+  .stage-pin {
+    position: sticky;
+    top: 4.25rem; /* under the header */
+    height: calc(100svh - 4.25rem);
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .hero-recede {
+      animation: recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 90%;
+    }
+    .scroll-cue {
+      animation: cue 1.8s var(--ease-out) infinite;
+    }
+
+    @media (min-width: 768px) {
+      .stage-frame {
+        animation: open-frame linear both;
+        animation-timeline: --stage;
+        animation-range: contain 0% contain 38%;
+      }
+      .stage-media {
+        animation: settle-media linear both;
+        animation-timeline: --stage;
+        animation-range: contain 0% contain 60%;
+      }
+      .stage-shade {
+        animation: shade-in linear both;
+        animation-timeline: --stage;
+        animation-range: contain 30% contain 50%;
+      }
+      .stage-copy {
+        animation: copy-in linear both;
+        animation-timeline: --stage;
+        animation-range: contain 36% contain 58%;
+      }
+    }
+
+    /* Case-study opening shot drifts up and darkens as the story starts. */
+    .shot-drift {
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+@keyframes drift {
+  to {
+    transform: translateY(18%) scale(1.06);
+  }
+}
+
+/* Links: a line that draws in on hover, mouse devices only. */
+.line-link {
+  position: relative;
+}
+.line-link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -0.15em 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transform-origin: left;
+  transition:
+    transform 260ms var(--ease-out),
+    opacity 260ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .line-link::after {
+    transform: scaleX(0);
+  }
+  .line-link:hover::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+button:active:not(:disabled),
+.press:active {
+  transform: scale(0.97);
+}
+button,
+.press {
+  transition: transform 160ms var(--ease-out);
 }

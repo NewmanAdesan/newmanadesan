@@ -59,7 +59,7 @@ export function GiftCardDemo() {
       title="Design a gift card"
       note="The card component and its 30 themes are ported from Swyftng's admin. Nothing is sent anywhere: the request body is shown, not posted, and the usage counts start from sample data."
     >
-      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
         {/* On phones the preview sticks under the header while the colours scroll past. */}
         <div className="sticky top-16 z-10 -mx-4 flex flex-col gap-3 bg-card px-4 pt-2 pb-3 sm:-mx-6 sm:px-6 lg:static lg:mx-0 lg:p-0">
           <GiftCardVisual value={value} tier={label} theme={selected.theme} className="w-full max-w-md" />

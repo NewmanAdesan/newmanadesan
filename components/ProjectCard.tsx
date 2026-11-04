@@ -1,60 +1,65 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/content/projects";
-import { HoverVideo } from "./HoverVideo";
-import { StackList } from "./StackList";
+import { TitleTransition } from "./Motion";
+import { StageVideo } from "./StageVideo";
 
-export function ProjectCard({ project, index }: { project: Project; index: number }) {
+// One project as a scene. On wide screens the scene pins while its frame opens out to fill the screen,
+// then the title card fades up over it (see "Cinematic scenes" in globals.css). On phones it is a tall
+// still with the copy beneath, because pinned scroll scenes fight touch scrolling.
+export function ProjectCard({ project }: { project: Project }) {
   const cover = project.cover ?? project.shots[0];
   const video = project.videos?.[0];
   const hasDemo = project.story?.some((part) => part.demo);
+  const href = `/work/${project.slug}`;
 
   return (
-    <article className="group grid gap-6 border-t border-line py-10 md:grid-cols-[1fr_1.1fr] md:gap-10">
-      <div className="flex flex-col gap-4">
-        <p className="text-sm text-muted">
-          {String(index + 1).padStart(2, "0")} · {project.period}
-        </p>
-        <h3 className="font-display text-3xl tracking-tight">
-          <Link href={`/work/${project.slug}`} className="hover:text-accent">
-            {project.name}
-          </Link>
-        </h3>
-        <p className="text-muted">{project.tagline}</p>
-        <p className="leading-relaxed">{project.summary}</p>
-        <StackList items={project.stack} />
-        <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-          <Link
-            href={`/work/${project.slug}`}
-            className="font-medium text-accent underline-offset-4 hover:underline"
-          >
-            Read the case study →
-          </Link>
-          {hasDemo && <span className="text-muted">Includes a live demo</span>}
-        </p>
-      </div>
-
-      <Link
-        href={`/work/${project.slug}`}
-        aria-hidden="true"
-        tabIndex={-1}
-        className="relative block overflow-hidden rounded-lg border border-line bg-card"
-      >
-        {cover ? (
-          <Image
-            src={cover.src}
-            alt=""
-            width={1200}
-            height={900}
-            className="aspect-[4/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-          />
-        ) : (
-          <div className="flex aspect-[4/3] items-center justify-center p-8">
-            <span className="font-display text-4xl tracking-tight text-muted">{project.name}</span>
+    <article className="stage relative">
+      <div className="stage-pin">
+        <div className="stage-frame relative aspect-[4/5] overflow-hidden bg-card sm:aspect-[16/10] md:absolute md:inset-0 md:aspect-auto">
+          <div className="stage-media absolute inset-0">
+            {cover ? (
+              <Image
+                src={cover.src}
+                alt=""
+                fill
+                sizes="100vw"
+                className="object-cover object-top"
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <span className="font-display text-6xl uppercase text-muted">{project.name}</span>
+              </div>
+            )}
+            {cover && video && <StageVideo video={video} />}
           </div>
-        )}
-        {cover && video && <HoverVideo video={video} />}
-      </Link>
+          <div
+            aria-hidden="true"
+            className="stage-shade absolute inset-0 hidden bg-gradient-to-t from-paper from-10% via-paper/85 via-40% to-paper/10 md:block"
+          />
+        </div>
+
+        <div className="stage-copy wrap relative flex flex-col gap-4 pt-8 pb-20 md:absolute md:inset-x-0 md:bottom-0 md:pt-0 md:pb-16">
+          <p className="text-sm text-muted">{project.period}</p>
+          <h3 className="font-display text-6xl leading-[0.88] uppercase sm:text-7xl md:text-8xl lg:text-9xl">
+            <TitleTransition slug={project.slug}>
+              <Link href={href} transitionTypes={["nav-forward"]} className="inline-block">
+                {project.name}
+              </Link>
+            </TitleTransition>
+          </h3>
+          <div className="grid gap-4 md:max-w-3xl md:grid-cols-2 md:gap-8">
+            <p className="text-lg leading-snug">{project.tagline}</p>
+            <p className="leading-relaxed text-muted">{project.proof}</p>
+          </div>
+          <p className="mt-2 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-sm">
+            <Link href={href} transitionTypes={["nav-forward"]} className="line-link press font-medium text-accent">
+              Open the case study
+            </Link>
+            {hasDemo && <span className="text-muted">Includes a live demo</span>}
+          </p>
+        </div>
+      </div>
     </article>
   );
 }
