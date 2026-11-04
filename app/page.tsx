@@ -8,12 +8,12 @@ const headline = ["I build software", "that solves the business problem,", "then
 export default function Home() {
   return (
     <>
-      <section className="grid grid-cols-1 gap-y-12 pt-16 pb-24 sm:pt-28 sm:pb-36 md:grid-cols-12 md:gap-x-8">
+      <section className="grid grid-cols-1 gap-y-10 pt-12 pb-20 sm:gap-y-12 sm:pt-28 sm:pb-36 md:grid-cols-12 md:gap-x-8">
         <p className="settle text-sm text-muted md:col-span-12" style={{ "--i": 0 } as React.CSSProperties}>
           {profile.title} and {profile.secondTitle.toLowerCase()}
         </p>
 
-        <h1 className="font-display text-[2.6rem] leading-[1.02] tracking-[-0.01em] sm:text-6xl md:col-span-12 lg:text-[4.9rem]">
+        <h1 className="font-display text-[2.5rem] leading-[1.02] tracking-[-0.01em] sm:text-6xl md:col-span-12 lg:text-[4.9rem]">
           {headline.map((line, i) => (
             <span key={line} className="settle block" style={{ "--i": i + 1 } as React.CSSProperties}>
               {line}
@@ -22,7 +22,7 @@ export default function Home() {
         </h1>
 
         <div
-          className="settle md:col-span-3 md:col-start-1 md:row-start-3 md:mt-10"
+          className="settle hidden md:block md:col-span-3 md:col-start-1 md:row-start-3 md:mt-10"
           style={{ "--i": 4 } as React.CSSProperties}
         >
           <Image
@@ -39,7 +39,7 @@ export default function Home() {
           className="settle flex flex-col gap-8 md:col-span-5 md:col-start-7 md:row-start-3 md:mt-10"
           style={{ "--i": 5 } as React.CSSProperties}
         >
-          <p className="text-lg leading-relaxed">{profile.intro}</p>
+          <p className="text-xl leading-relaxed">{profile.intro}</p>
           <p className="flex flex-wrap items-baseline gap-x-8 gap-y-3">
             <a href={`mailto:${profile.email}`} className="press link link-ruled font-display text-2xl text-accent">
               Email me

@@ -149,7 +149,7 @@ export default async function CaseStudy({ params }: Props) {
           {project.story?.map((part) => (
             <section key={part.heading} className={sectionGrid}>
               <h2 className={h2}>{part.heading}</h2>
-              <p className={`${prose} whitespace-pre-line`}>{part.body}</p>
+              <Story body={part.body} className={prose} />
               {part.demo && (
                 <div className="mt-6 md:col-span-10 md:col-start-3">
                   <Demo id={part.demo} />
@@ -183,6 +183,19 @@ export default async function CaseStudy({ params }: Props) {
         </Link>
       </nav>
     </article>
+  );
+}
+
+// A story opens with its first sentence set larger, so a skimmer gets the point of each section.
+function Story({ body, className }: { body: string; className: string }) {
+  const match = body.match(/^(.+?[.!?])\s+([\s\S]*)$/);
+  const lede = match ? match[1] : body;
+  const rest = match ? match[2] : "";
+  return (
+    <div className={`${className} flex flex-col gap-4`}>
+      <p className="text-xl leading-snug font-medium">{lede}</p>
+      {rest && <p className="whitespace-pre-line">{rest}</p>}
+    </div>
   );
 }
 
