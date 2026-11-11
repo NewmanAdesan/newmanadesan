@@ -1,11 +1,9 @@
-export function StackList({ items }: { items: string[] }) {
+// The tools behind a project, set as a quiet line of text rather than a row of pills.
+export function StackList({ items, className = "" }: { items: string[]; className?: string }) {
   return (
-    <ul className="flex flex-wrap gap-2" aria-label="Tools used">
-      {items.map((item) => (
-        <li key={item} className="rounded-full border border-line px-2.5 py-0.5 text-xs text-muted">
-          {item}
-        </li>
-      ))}
-    </ul>
+    <p className={`text-sm leading-relaxed text-muted ${className}`}>
+      <span className="sr-only">Tools used: </span>
+      {items.join(", ")}
+    </p>
   );
 }

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque } from "next/font/google";
+import { Bodoni_Moda } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { profile } from "@/content/projects";
 import "./globals.css";
 
-// Headings and the name only. One weight keeps the file small; body text stays on the system font.
-const display = Bricolage_Grotesque({ weight: "600", subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
+// Display headings only: a high-contrast Didone. One weight keeps the file small; body text stays on the system font.
+const display = Bodoni_Moda({ weight: "500", subsets: ["latin"], variable: "--font-bodoni", display: "swap" });
 
-const siteTitle = `${profile.name} · ${profile.title} and ${profile.secondTitle.toLowerCase()}`;
+const siteTitle = `${profile.name} · Selected work`;
 const siteDescription =
-  "I build software that solves the business problem, then check that it did. Case studies: a delivery marketplace through five versions, real-time ambulance dispatch, and school management across more than ten schools.";
+  "Case studies: a delivery marketplace through five versions, websites for five UK businesses, real-time ambulance dispatch, and school management across more than ten schools.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
     url: "/",
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${profile.name}, ${profile.title}` }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${profile.name}: selected work, with screenshots of four of the projects` }],
   },
   twitter: { card: "summary_large_image", title: siteTitle, description: siteDescription, images: ["/og.jpg"] },
 };
@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Header />
-        <main id="main" className="mx-auto max-w-5xl px-4 sm:px-6">
+        <main id="main" className="mx-auto max-w-6xl px-5 sm:px-8">
           {children}
         </main>
         <Footer />

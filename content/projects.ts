@@ -15,10 +15,12 @@ export type Project = {
   stack: string[];
   link?: { href: string; label: string };
   summary: string;
+  // One concrete line for the home page: what the work achieved or what makes it hard. Facts from the case study only.
+  proof: string;
   context: string;
   built: string[];
   // Your own account of a hard problem and how you solved it. Leave empty until written.
-  story?: { heading: string; body: string; demo?: DemoId }[];
+  story?: { heading: string; body: string; demo?: DemoId; link?: { href: string; label: string }; shots?: Shot[] }[];
   // Version history, shown before the stories.
   timeline?: { label: string; text: string }[];
   videos?: Video[];
@@ -41,6 +43,7 @@ export const projects: Project[] = [
     link: { href: "https://swyftng.com", label: "swyftng.com" },
     summary:
       "I have built Swyftng's web platform since the MVP in May 2024, through five major versions. Version 5 has just shipped.",
+    proof: "Five major versions on one live codebase since May 2024, without a rewrite.",
     context:
       "Swyftng lets customers order from restaurants, supermarkets, local markets and home care services in one place, book a rider for any parcel, and pay with gift cards and earned credit. Vendors, riders and Swyftng's own staff run their side of each order, and the platform has grown by a new kind of order with almost every version.",
     built: [
@@ -110,6 +113,7 @@ export const projects: Project[] = [
     link: { href: "https://demiverse-site.vercel.app", label: "demiverse-site.vercel.app" },
     summary:
       "A portfolio site that presents the studio's projects as stills, day and night comparisons, 360° tours and film.",
+    proof: "Planned for a 2 GB iPhone 7. Its scroll sequence dropped 0 frames under a 4× CPU slowdown.",
     context:
       "Demiverse produces architectural renders and walkthroughs. The site had to show heavy visual media well on phones without becoming slow or hard to update.",
     built: [
@@ -158,6 +162,7 @@ export const projects: Project[] = [
     },
     summary:
       "The company's public website, then the internal dashboard used to oversee more than ten schools.",
+    proof: "One dashboard for the company's team to oversee more than ten schools.",
     context:
       "Shkula is school management software used by several schools at once. The company needed a public face first, and then a way for its own team to see across every school on the platform.",
     built: [
@@ -179,6 +184,75 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "uk-business-websites",
+    name: "UK business websites",
+    tagline: "Websites for five UK small businesses",
+    role: "Web developer",
+    period: "2026",
+    stack: ["React", "Vite", "Tailwind CSS"],
+    summary:
+      "Five live websites for UK businesses: a builders' merchant and plant hire yard, a construction group, a payroll bureau, a jewellery dealer and an event planner.",
+    proof: "Five live sites, each with a look taken from the trade it serves.",
+    context:
+      "Each business needed a site that explains what it does in the language of its own trade and makes the next step obvious: call the yard, brief the group, book a discovery call, enquire about a piece, or start planning an event.",
+    built: [
+      "A.M.S Traders: a one-page site for a Sheerness yard that sells building materials and hires out plant.",
+      "RF Group: a one-page site for a construction, plant hire and consultancy group, designed like a technical drawing set.",
+      "XSAI Resources: a six-page site for a payroll and accounting bureau, including a page that explains how payroll economics work.",
+      "IQ2 Gold: a one-page boutique for a Hatton Garden jewellery and gold dealer.",
+      "Lets Go Limes: a four-page site for an event planning company.",
+    ],
+    story: [
+      {
+        heading: "A.M.S Traders",
+        body: "A builders' merchant and plant hire yard in Sheerness, Kent. The business runs two counters from one yard, materials supply and plant hire, with one trade account across both, and the site is organised the same way.\n\nThe hero splits into the two counters. Supply is an eight-category grid, from timber and sheet to landscaping. Hire is a table of plant by category with every rate shown as \"On request\", because the yard quotes hire per job. A three-step section explains opening a trade account, and the contact section gives the yard's address with a directions link, opening hours and a click-to-call number.",
+        link: { href: "https://amstradersuk.com", label: "amstradersuk.com" },
+        shots: [
+          { src: "/images/uk-sites/ams-hero.jpg", alt: "A.M.S Traders: the hero, split into the supply and hire counters" },
+          { src: "/images/uk-sites/ams-hire.jpg", alt: "A.M.S Traders: the plant hire table, quoted per job" },
+        ],
+      },
+      {
+        heading: "RF Group",
+        body: "A group that does specialist construction, plant hire and management consultancy. Its pitch is that a developer briefs one team instead of three separate suppliers.\n\nThe site is designed like a technical drawing set, with grid paper, sheet and revision labels, and a line drawing for each division. The approach section draws the argument as two diagrams side by side: the usual setup, where the client manages every handoff between builder, plant and consultant, and RF's setup, where those handoffs happen inside the group. The enquiry section lists what to include in a brief, and the footer carries the company's registration details.",
+        link: { href: "https://rfgrouplimited.com", label: "rfgrouplimited.com" },
+        shots: [
+          { src: "/images/uk-sites/rf-hero.jpg", alt: "RF Group: the hero on drawing-sheet grid paper" },
+          { src: "/images/uk-sites/rf-approach.jpg", alt: "RF Group: the usual three-supplier setup beside the one-group setup" },
+        ],
+      },
+      {
+        heading: "XSAI Resources",
+        body: "A UK payroll and accounting bureau that charges a flat £3 per employee per month. Its site has six pages: home, payroll, accounting, admin support, insights and \"Our Edge\".\n\nIts main selling point is easy to misread. Employers fund payroll several days before pay date, and the money can earn treasury benefit at the bank in that window. Most providers keep all of it; XSAI returns part of it to clients as loyalty credits. Described carelessly, that sounds like an investment product, which it isn't. Every mention of the programme on the site sits next to a plain statement of what it is not: not an investment, not interest on deposits, not guaranteed income. The Insights page walks through the economics step by step, from the funding window to why most providers never mention it. The home page opens with an overview panel showing the payroll cycle and the £3 rate.",
+        link: { href: "https://xsairesources.com", label: "xsairesources.com" },
+        shots: [
+          { src: "/images/uk-sites/xsai-hero.jpg", alt: "XSAI Resources: the hero with the payroll overview panel" },
+          { src: "/images/uk-sites/xsai-loyalty.jpg", alt: "XSAI Resources: the loyalty credit programme, with what it is not" },
+        ],
+      },
+      {
+        heading: "IQ2 Gold",
+        body: "A luxury jewellery, watch and gold dealer in Hatton Garden, London. The site is a boutique rather than a shop: six collection categories and a grid of trending pieces, each with an Enquire button instead of a price or a checkout.\n\nThe contact section offers WhatsApp, phone and email with opening hours, and the footer lists the trading address, registered office and VAT number.",
+        link: { href: "https://iq2gold.com", label: "iq2gold.com" },
+        shots: [
+          { src: "/images/uk-sites/iq2-hero.jpg", alt: "IQ2 Gold: the hero" },
+          { src: "/images/uk-sites/iq2-trending.jpg", alt: "IQ2 Gold: trending pieces, each with an Enquire button" },
+        ],
+      },
+      {
+        heading: "Lets Go Limes",
+        body: "An event planning and coordination company working on weddings, corporate functions, school programmes and community events across the UK. The site has four pages: home, about, events and services, and contact.\n\nThe home page sets out the six steps of the company's process on a timeline, from planning structure to event-day assistance. The services page covers six event types in an accordion, each opening to how the company helps, followed by the four stages a client can bring them in at. The contact page lists the details worth including in a first enquiry, so the first conversation is useful.",
+        link: { href: "https://letsgolimes.com", label: "letsgolimes.com" },
+        shots: [
+          { src: "/images/uk-sites/limes-hero.jpg", alt: "Lets Go Limes: the hero with the five event types" },
+          { src: "/images/uk-sites/limes-process.jpg", alt: "Lets Go Limes: the six-step process" },
+        ],
+      },
+    ],
+    cover: { src: "/images/uk-sites/cover.jpg", alt: "The five UK business websites" },
+    shots: [],
+  },
+  {
     slug: "ambulance-dispatch",
     name: "Ambulance dispatch platform",
     tagline: "Request and dispatch ambulances in real time",
@@ -187,6 +261,7 @@ export const projects: Project[] = [
     stack: ["Next.js", "React", "TypeScript", "Socket.IO", "TanStack Query", "Zustand", "Tailwind CSS"],
     summary:
       "Web interfaces for a healthcare logistics platform: people request an ambulance for an emergency or an event, providers offer their ambulances, and administrators run the operation.",
+    proof: "Requests, offers and booking updates reach each side in real time over Socket.IO.",
     context:
       "The platform has three sides: consumers requesting ambulances, providers running them, and administrators overseeing both. The product hasn't launched yet and the client is under confidentiality, so there are no screenshots or name here.",
     built: [
@@ -220,6 +295,7 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Vite"],
     summary:
       "A landing page that turns a founder's story into a case for engineered bamboo as an answer to affordable housing in Nigeria.",
+    proof: "Structure and copy built from the founder's voice notes, before any design.",
     context:
       "GloBam promotes bamboo as a building material well beyond scaffolding, and runs the yearly Global Bamboo Expo, held online in 2023 and 2024, at FUTA in 2025 and at UNILAG in 2026. The founder explained the company to me in a series of voice notes.",
     built: [
@@ -243,6 +319,7 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript"],
     summary:
       "I wrote the blueprint for the agency's site, the client approved it, and then I built it.",
+    proof: "A quiz that qualifies leads and pre-fills the contact form.",
     context:
       "The agency wanted its website to bring in better-qualified leads, not just look good.",
     built: [
@@ -293,8 +370,9 @@ export const profile = {
   siteUrl: "https://newmanadesan.vercel.app",
   title: "Frontend developer",
   secondTitle: "Software solutions analyst",
+  // The hero's one-line intro. The headline carries the thesis; this says how.
   intro:
-    "Code is only part of the job. I start from the business process the software has to fit, plan and build the frontend around it, test it, then track whether it actually solved the problem and adjust from there. Recent work: a delivery marketplace through five versions, real-time ambulance dispatch, and school management across more than ten schools.",
+    "I plan, build and test the frontend around how a business actually runs, then track whether it solved the problem.",
   email: "newmanadesan@gmail.com",
   github: "https://github.com/NewmanAdesan",
   linkedin: "https://www.linkedin.com/in/newman-adesan-74ba22210",
