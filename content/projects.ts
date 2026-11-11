@@ -370,9 +370,6 @@ export const profile = {
   siteUrl: "https://newmanadesan.vercel.app",
   title: "Frontend developer",
   secondTitle: "Software solutions analyst",
-  // The hero's one-line intro. The headline carries the thesis; this says how.
-  intro:
-    "I plan, build and test the frontend around how a business actually runs, then track whether it solved the problem.",
   email: "newmanadesan@gmail.com",
   github: "https://github.com/NewmanAdesan",
   linkedin: "https://www.linkedin.com/in/newman-adesan-74ba22210",
