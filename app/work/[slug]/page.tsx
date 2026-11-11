@@ -150,6 +150,18 @@ export default async function CaseStudy({ params }: Props) {
             <section key={part.heading} className={sectionGrid}>
               <h2 className={h2}>{part.heading}</h2>
               <Story body={part.body} className={prose} />
+              {part.link && (
+                <p className="md:col-span-7 md:col-start-6">
+                  <a href={part.link.href} className="link link-ruled text-accent">
+                    {part.link.label}
+                  </a>
+                </p>
+              )}
+              {part.shots && part.shots.length > 0 && (
+                <div className="mt-6 md:col-span-12">
+                  <Gallery shots={part.shots} label={`${part.heading} screenshots`} />
+                </div>
+              )}
               {part.demo && (
                 <div className="mt-6 md:col-span-10 md:col-start-3">
                   <Demo id={part.demo} />
