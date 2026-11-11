@@ -1,61 +1,20 @@
-import Image from "next/image";
 import { ProjectCard } from "@/components/ProjectCard";
 import { analysis, engineering, profile, projects } from "@/content/projects";
-
-// The headline settles in phrase by phrase on first load. Each phrase is its own line on wide screens.
-const headline = ["I build software", "that solves the business problem,", "then check that it did."];
 
 export default function Home() {
   return (
     <>
-      <section className="grid grid-cols-1 gap-y-10 pt-12 pb-20 sm:gap-y-12 sm:pt-28 sm:pb-36 md:grid-cols-12 md:gap-x-8">
-        <p className="settle text-sm text-muted md:col-span-12" style={{ "--i": 0 } as React.CSSProperties}>
-          {profile.title} and {profile.secondTitle.toLowerCase()}
-        </p>
-
-        <h1 className="font-display text-[2.5rem] leading-[1.02] tracking-[-0.01em] sm:text-6xl md:col-span-12 lg:text-[4.9rem]">
-          {headline.map((line, i) => (
-            <span key={line} className="settle block" style={{ "--i": i + 1 } as React.CSSProperties}>
-              {line}
-            </span>
-          ))}
-        </h1>
-
-        <div
-          className="settle hidden md:block md:col-span-3 md:col-start-1 md:row-start-3 md:mt-10"
-          style={{ "--i": 4 } as React.CSSProperties}
-        >
-          <Image
-            src="/newman.jpg"
-            alt={`Portrait of ${profile.name}`}
-            width={450}
-            height={450}
-            priority
-            className="w-32 rounded-[3px] object-cover sm:w-44"
-          />
-        </div>
-
-        <div
-          className="settle flex flex-col gap-8 md:col-span-5 md:col-start-7 md:row-start-3 md:mt-10"
-          style={{ "--i": 5 } as React.CSSProperties}
-        >
-          <p className="text-xl leading-relaxed">{profile.intro}</p>
-          <p className="flex flex-wrap items-baseline gap-x-8 gap-y-3">
-            <a href={`mailto:${profile.email}`} className="press link link-ruled font-display text-2xl text-accent">
-              Email me
-            </a>
-            <a href="#work" className="link text-muted">
-              See my work
-            </a>
-          </p>
-        </div>
-      </section>
-
-      <section id="work" className="scroll-mt-20 border-t border-line pt-16">
+      <section id="work" className="scroll-mt-20 pt-12 sm:pt-20">
         <div className="grid gap-4 md:grid-cols-12 md:gap-x-8">
-          <h2 className="font-display text-3xl md:col-span-4">Selected work</h2>
-          <p className="text-muted md:col-span-5 md:col-start-7 md:pt-2">
-            Products I have built for clients, most of them live.
+          <h1 className="settle font-display text-3xl md:col-span-4" style={{ "--i": 0 } as React.CSSProperties}>
+            Selected work
+          </h1>
+          <p
+            className="settle text-muted md:col-span-5 md:col-start-7 md:pt-2"
+            style={{ "--i": 1 } as React.CSSProperties}
+          >
+            {profile.title} and {profile.secondTitle.toLowerCase()}. Products I have built for clients, most of them
+            live.
           </p>
         </div>
         <div className="divide-y divide-line">
